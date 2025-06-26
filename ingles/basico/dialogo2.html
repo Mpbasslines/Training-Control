@@ -1,0 +1,86 @@
+<!-- NOME DO FICHEIRO: dialogo2.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dialogue Quiz Part 2 - At Home</title>
+    <style>
+        :root { --primary-color: #27ae60; --secondary-color: #2ecc71; --bg-color: #f4f6f7; --card-bg: #ffffff; --border-color: #dcdde1; --text-color: #34495e; --success-color: #2ecc71; --danger-color: #e74c3c; --success-bg: #eafaf1; --danger-bg: #f9ebea; --timer-color: #e67e22;}
+        body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; margin: 0; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 800px; margin: 20px auto; background-color: var(--card-bg); border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { text-align: center; color: var(--primary-color); }
+        .instructions { background-color: #e8f6f3; border-left: 5px solid #1abc9c; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        #dialogue-container { font-family: 'Georgia', serif; background-color: #fafafa; border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        #dialogue-container p { margin: 8px 0; }
+        
+        .controls { text-align: center; margin-bottom: 25px; }
+        button { background-color: var(--primary-color); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s ease-in-out; margin: 5px; }
+        button:hover { background-color: var(--secondary-color); transform: translateY(-1px); }
+        button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        #speak-btn { background-color: #34495e; }
+        #speak-btn.active { background-color: #e67e22; }
+
+        #quiz-section { border-top: 2px solid var(--primary-color); padding-top: 20px; text-align: center; }
+        #timer { font-size: 1.5em; font-weight: bold; text-align: center; color: var(--timer-color); margin-bottom: 15px; }
+        .question-block { margin-bottom: 20px; text-align: left; }
+        .question-block p { font-weight: bold; }
+        .quiz-option { display: block; background-color: #f9f9f9; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; margin: 5px 0; cursor: pointer; }
+        .quiz-option.selected { background-color: #ddeaff; }
+        .quiz-option.correct { background-color: var(--success-bg) !important; border-left: 5px solid var(--success-color); }
+        .quiz-option.incorrect { background-color: var(--danger-bg) !important; border-left: 5px solid var(--danger-color); }
+        #results { text-align: center; font-weight: bold; padding: 15px; border-radius: 5px; margin-top: 20px; }
+        
+        @media (max-width: 600px) { .container { padding: 15px; } button { width: 100%; margin-top: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 Dialogue Quiz Part 2 - At Home</h1>
+        <div class="instructions">
+            <p><strong>Instruction:</strong> First, read the dialogue below once. Then, click "Read Aloud" to listen to the audio.</p>
+        </div>
+        <div id="dialogue-container">
+            <p><em>(Sound of a door opening, footsteps)</em></p>
+            <p><strong>Husband:</strong> Hi... I'm home.</p>
+            <p><strong>Woman (from the kitchen):</strong> Oh, look who finally made it. 🕗 Did the meeting end just now or did the rain stop first?</p>
+            <p><strong>Husband:</strong> Come on, I told you I was working...</p>
+            <p><strong>Woman:</strong> You were working? Or dancing at a party with loud music and women talking on their phones?</p>
+            <p><strong>Husband (nervously):</strong> Look, it wasn’t what it sounded like. We were having a quick after-work drink, just to celebrate a colleague’s birthday.</p>
+            <p><strong>Woman:</strong> Really? 🎉 That’s funny, because you said “meeting.” And what about the rain? It's been dry all evening. Even the dog is confused — he ate your dinner and he’s still waiting for the storm.</p>
+            <p><strong>Husband (sighs):</strong> I didn’t mean to lie. I just didn’t want to argue over something small. I was tired.</p>
+            <p><strong>Woman:</strong> You didn’t want to argue? Then maybe don’t lie to me next time. I’m tired too. Tired of being home alone with the kids while you’re out “celebrating.”</p>
+            <p><strong>Husband:</strong> I’m sorry, really. I didn’t think it would turn into this.</p>
+            <p><strong>Woman:</strong> Neither did I. But here we are. And guess what? Tomorrow you’re finishing dinner while I go out.</p>
+            <p><strong>Husband (quietly):</strong> Fair enough...</p>
+        </div>
+        <div class="controls">
+            <button id="speak-btn" onclick="toggleSpeak()">🔊 Read Aloud</button>
+            <button id="start-quiz-btn" onclick="startQuiz()">🧠 Start Quiz</button>
+        </div>
+        
+        <div id="quiz-section" style="display:none;">
+            <div id="timer">04:00</div>
+            <div id="quiz-container"></div>
+            <div id="results"></div>
+            <button id="submit-btn" onclick="submitQuiz()">Submit Answers</button>
+            <button id="retry-btn" onclick="location.reload()" style="display:none; background-color: #e67e22;">Retry Quiz</button>
+            <!-- BOTÃO PARA VOLTAR ADICIONADO AQUI -->
+            <button id="prev-dialog-btn" onclick="location.href='../index.html'" style="display:none; background-color: #7f8c8d;">⬅️ Diálogo Anterior</button>
+        </div>
+    </div>
+    
+    <script>
+        // ... (todo o seu script de quiz original está aqui, eu não o alterei) ...
+        const quizData = [ { question: "What does the woman's phrase 'look who finally made it' imply?", answer: "That the husband is very late", options: ["That she is happy to see him", "That the husband is very late", "That she was not expecting him"] }, { question: "When the woman asks 'did the rain stop first?', she is being...", answer: "Sarcastic", options: ["Curious about the weather", "Confused", "Sarcastic"] }, { question: "What was the husband's real reason for being late?", answer: "Celebrating a colleague's birthday", options: ["He was in a meeting", "He was stuck in traffic", "Celebrating a colleague's birthday"] }, { question: "What does 'it wasn’t what it sounded like' mean?", answer: "The situation was misinterpreted", options: ["The phone connection was bad", "The situation was misinterpreted", "He was speaking a different language"] }, { question: "How does the woman know the husband was lying about the rain?", answer: "It has been dry all evening at home", options: ["She checked the weather forecast", "It has been dry all evening at home", "The husband told her"] }, { question: "What does 'I just didn’t want to argue over something small' suggest about the husband's initial intention?", answer: "He wanted to avoid a conflict", options: ["He wanted to have a big argument", "He thought the party was not important", "He wanted to avoid a conflict"] }, { question: "The woman says she is 'Tired of being home alone...'. What feeling is she expressing?", answer: "Frustration and loneliness", options: ["Physical exhaustion", "Happiness and contentment", "Frustration and loneliness"] }, { question: "What is the consequence the woman sets for the husband's lie?", answer: "He will have to finish dinner the next day while she goes out", options: ["He has to buy a new dinner", "He will have to finish dinner the next day while she goes out", "They will not speak for a week"] }, { question: "What does the husband's final response, 'Fair enough...', mean?", answer: "He accepts that her decision is justified", options: ["He thinks it's a good idea", "He accepts that her decision is justified", "He doesn't agree but will not argue"] }, { question: "What is the central theme of this discussion?", answer: "Trust and honesty in a relationship", options: ["The importance of birthday parties", "The weather", "Trust and honesty in a relationship"] } ];
+        let femaleVoice = null, timerInterval = null;
+        function loadVoices() { if (typeof speechSynthesis === 'undefined') return; let voices = speechSynthesis.getVoices(); femaleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Zira'))) || voices.find(v => v.lang.includes('en')); }
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) { speechSynthesis.onvoiceschanged = loadVoices; }
+        loadVoices();
+        function toggleSpeak() { const speakBtn = document.getElementById('speak-btn'); if (typeof speechSynthesis === 'undefined') { alert('Your browser does not support speech synthesis.'); return; } if (speechSynthesis.paused) { speechSynthesis.resume(); speakBtn.textContent = '⏸️ Pause'; speakBtn.classList.add('active'); } else if (speechSynthesis.speaking) { speechSynthesis.pause(); speakBtn.textContent = '▶️ Resume'; speakBtn.classList.remove('active'); } else { const textToSpeak = document.getElementById('dialogue-container').textContent; const utterance = new SpeechSynthesisUtterance(textToSpeak); if (femaleVoice) utterance.voice = femaleVoice; utterance.lang = 'en-US'; utterance.onend = () => { speakBtn.textContent = '🔊 Read Aloud'; speakBtn.classList.remove('active'); }; speechSynthesis.speak(utterance); speakBtn.textContent = '⏸️ Pause'; speakBtn.classList.add('active'); } }
+        function startQuiz() { document.getElementById('start-quiz-btn').style.display = 'none'; document.getElementById('speak-btn').style.display = 'none'; document.getElementById('quiz-section').style.display = 'block'; const quizContainer = document.getElementById('quiz-container'); quizContainer.innerHTML = ''; quizData.forEach((item, index) => { const block = document.createElement('div'); block.className = 'question-block'; const shuffledOptions = [...item.options].sort(() => Math.random() - 0.5); block.innerHTML = `<p>${index + 1}. ${item.question}</p>`; shuffledOptions.forEach(opt => { block.innerHTML += `<label class="quiz-option"><input type="radio" name="q${index}" value="${opt.replace(/"/g, '"')}"> ${opt}</label>`; }); quizContainer.appendChild(block); }); startTimer(240); }
+        function startTimer(duration) { let timer = duration, minutes, seconds; const timerDisplay = document.getElementById('timer'); timerInterval = setInterval(() => { minutes = parseInt(timer / 60, 10); seconds = parseInt(timer % 60, 10); minutes = minutes < 10 ? "0" + minutes : minutes; seconds = seconds < 10 ? "0" + seconds : seconds; timerDisplay.textContent = minutes + ":" + seconds; if (--timer < 0) { clearInterval(timerInterval); timerDisplay.textContent = "Time's Up!"; submitQuiz(true); } }, 1000); }
+        function submitQuiz(timeUp = false) { clearInterval(timerInterval); let score = 0; quizData.forEach((item, index) => { const selectedRadio = document.querySelector(`input[name="q${index}"]:checked`); const options = document.querySelectorAll(`input[name="q${index}"]`); options.forEach(opt => { const label = opt.parentElement; opt.disabled = true; label.style.cursor = 'default'; if (opt.value === item.answer) { label.classList.add('correct'); } else if (selectedRadio && opt.value === selectedRadio.value) { label.classList.add('incorrect'); } }); if (selectedRadio && selectedRadio.value === item.answer) { score++; } }); const percentage = ((score / quizData.length) * 100).toFixed(0); const resultsDiv = document.getElementById('results'); let resultMessage = `You scored ${score} out of ${quizData.length} (${percentage}%)!`; if (timeUp) { resultMessage = `<h2>Time's Up!</h2><p>${resultMessage}</p>`; } resultsDiv.innerHTML = resultMessage; document.getElementById('submit-btn').style.display = 'none'; document.getElementById('retry-btn').style.display = 'inline-block'; document.getElementById('prev-dialog-btn').style.display = 'inline-block'; }
+    </script>
+</body>
+</html>

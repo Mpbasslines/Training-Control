@@ -1,0 +1,181 @@
+<!-- NOME DO FICHEIRO: dialogo1.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dialogue Verb Tense Quiz</title>
+  <style>
+    :root {
+      --primary-color: #8e44ad;
+      --secondary-color: #9b59b6;
+      --bg-color: #f4f6f7;
+      --card-bg: #ffffff;
+      --border-color: #dcdde1;
+      --text-color: #34495e;
+      --success-color: #2ecc71;
+      --danger-color: #e74c3c;
+      --success-bg: #eafaf1;
+      --danger-bg: #f9ebea;
+      --timer-color: #e67e22;
+    }
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+    }
+    .instructions {
+      background-color: #fdf9e7;
+      border-left: 5px solid #f1c40f;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    #dialogue-container {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #fafafa;
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-1px);
+    }
+    button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+    #speak-btn.active {
+      background-color: #e67e22;
+    }
+    .quiz-option {
+      display: block;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    .quiz-option.correct {
+      background-color: var(--success-bg);
+      border-left: 5px solid var(--success-color);
+    }
+    .quiz-option.incorrect {
+      background-color: var(--danger-bg);
+      border-left: 5px solid var(--danger-color);
+    }
+    #quiz-section { display: none; border-top: 2px solid var(--primary-color); padding-top: 20px; }
+    #results { margin-top: 20px; text-align: center; font-weight: bold; }
+    #next-dialog-btn { display: none; margin-top: 15px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dialogue Verb Tense Quiz</h1>
+
+    <div class="instructions">
+      <p><strong>Instruction:</strong> Read the dialogue below. Click "Start Quiz" when ready.</p>
+    </div>
+
+    <div id="dialogue-container">
+      <p><strong>Woman:</strong> Hi darling, it's me. How's it going? Are you coming home?</p>
+      <p><strong>Husband:</strong> Sorry, I'm working late today. What are you doing?</p>
+      <p><strong>Woman:</strong> I'm finishing the dinner and the kids are doing their homework. Where are you speaking from? I can hear lots of people.</p>
+      <p><strong>Husband:</strong> Um, we're having a meeting.</p>
+      <p><strong>Woman:</strong> A meeting? Who's listening to music? Hello, can you hear me...?</p>
+      <p><strong>Husband:</strong> Sorry, I'm having some problems with the mobile. (line goes dead)</p>
+      <p><strong>Woman:</strong> Hello! What are you doing now?</p>
+      <p><strong>Husband:</strong> I'm leaving the office, I'm waiting for a taxi. (Come on!)</p>
+      <p><strong>Woman:</strong> Who's talking then?</p>
+      <p><strong>Husband:</strong> Nobody, I mean it's a woman talking on her mobile. Listen, it's raining and the taxi is coming, so...</p>
+      <p><strong>Human:</strong> It isn't raining here! Oh look, the dog is eating your dinner... bye!</p>
+    </div>
+
+    <div class="controls">
+      <button onclick="startQuiz()">🧠 Start Quiz</button>
+    </div>
+
+    <div id="quiz-section">
+      <div id="quiz-container"></div>
+      <div id="results"></div>
+      <button onclick="submitQuiz()">✅ Enviar Respostas</button>
+      <!-- CORREÇÃO APLICADA AQUI -->
+      <button id="next-dialog-btn" onclick="location.href='dialogo2.html'">➡️ Próximo Diálogo</button>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      { question: "What verb tense is used in 'I'm working late today'?", answer: "Present Continuous", options: ["Simple Present", "Present Continuous", "Simple Past"] },
+      { question: "What are the kids doing?", answer: "doing their homework", options: ["watching TV", "playing outside", "doing their homework"] }
+    ];
+
+    function startQuiz() {
+      document.getElementById("quiz-section").style.display = "block";
+      const container = document.getElementById("quiz-container");
+      container.innerHTML = "";
+      quizData.forEach((item, index) => {
+        let block = `<div class="question-block"><p>${index + 1}. ${item.question}</p>`;
+        item.options.forEach(opt => {
+          block += `<label class="quiz-option"><input type="radio" name="q${index}" value="${opt}"> ${opt}</label>`;
+        });
+        block += "</div>";
+        container.innerHTML += block;
+      });
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const options = document.querySelectorAll(`input[name="q${index}"]`);
+        options.forEach(opt => {
+          const label = opt.parentElement;
+          label.classList.remove("correct", "incorrect");
+          if (opt.value === item.answer) {
+            label.classList.add("correct");
+          } else if (selected && opt.value === selected.value) {
+            label.classList.add("incorrect");
+          }
+          opt.disabled = true;
+        });
+        if (selected && selected.value === item.answer) score++;
+      });
+      document.getElementById("results").textContent = `Score: ${score}/${quizData.length}`;
+      document.getElementById("next-dialog-btn").style.display = "inline-block";
+    }
+  </script>
+</body>
+</html>
